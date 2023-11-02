@@ -17,21 +17,27 @@ public class TicketMenu {
 
 			switch (option) {
 				case 1:
-					list();
+					list(State.OPEN);
 					break;
 				case 2:
-					getById();
+					list(State.CLOSED);
 					break;
 				case 3:
-					create();
+					list();
 					break;
 				case 4:
-					update();
+					getById();
 					break;
 				case 5:
-					delete();
+					create();
 					break;
 				case 6:
+					update();
+					break;
+				case 7:
+					delete();
+					break;
+				case 8:
 					System.out.println("Exiting!");
 					break;
 				default:
@@ -39,19 +45,35 @@ public class TicketMenu {
 					break;
 			}
 
-		} while (option != 6);
+		} while (option != 8);
 	}
 
 	private void menu() {
 		System.out.println("=======================================================");
 		System.out.println("Menu:");
-		System.out.println("1 - List");
-		System.out.println("2 - Get by id");
-		System.out.println("3 - New");
-		System.out.println("4 - Update");
-		System.out.println("5 - Delete");
-		System.out.println("6 - Exit");
+		System.out.println("1 - List all open tickets");
+		System.out.println("2 - List all closed tickets");
+		System.out.println("3 - List all");
+		System.out.println("4 - Get by id");
+		System.out.println("5 - New");
+		System.out.println("6 - Update");
+		System.out.println("7 - Delete");
+		System.out.println("8 - Exit");
 		System.out.print("Choose an option: ");
+	}
+
+	private void list(State state) {
+		try{
+			List<Ticket> tickets = ticketService.getAll(state);
+			for (Ticket t : tickets) {
+				System.out.println();
+				System.out.println("=======================================================");
+				System.out.println(t.toString());
+				System.out.println("=======================================================");
+			}
+		}catch (Exception e){
+			showErrorMessage("An error occurred while trying to list tickets.", e.getMessage());
+    }
 	}
 
 	private void list() {
@@ -65,7 +87,7 @@ public class TicketMenu {
 			}
 		}catch (Exception e){
 			showErrorMessage("An error occurred while trying to list tickets.", e.getMessage());
-    }
+		}
 	}
 
 	private void update() {
