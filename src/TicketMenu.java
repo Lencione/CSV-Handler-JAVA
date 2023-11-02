@@ -20,15 +20,18 @@ public class TicketMenu {
 					list();
 					break;
 				case 2:
-					create();
+					getById();
 					break;
 				case 3:
-					update();
+					create();
 					break;
 				case 4:
-					delete();
+					update();
 					break;
 				case 5:
+					delete();
+					break;
+				case 6:
 					System.out.println("Exiting!");
 					break;
 				default:
@@ -36,17 +39,18 @@ public class TicketMenu {
 					break;
 			}
 
-		} while (option != 5);
+		} while (option != 6);
 	}
 
 	private void menu() {
-		System.out.println("\n\n=======================================================");
+		System.out.println("=======================================================");
 		System.out.println("Menu:");
 		System.out.println("1 - List");
-		System.out.println("2 - New");
-		System.out.println("3 - Update");
-		System.out.println("4 - Delete");
-		System.out.println("5 - Exit");
+		System.out.println("2 - Get by id");
+		System.out.println("3 - New");
+		System.out.println("4 - Update");
+		System.out.println("5 - Delete");
+		System.out.println("6 - Exit");
 		System.out.print("Choose an option: ");
 	}
 
@@ -104,7 +108,10 @@ public class TicketMenu {
           break;
       }
 
-			System.out.printf(ticket.toString());
+			System.out.println("\n\nTicket updated");
+			System.out.println("=======================================================");
+			System.out.println(ticket.toString());
+			System.out.println("=======================================================");
 			ticketService.update(ticket);
 		}catch (Exception e){
 			showErrorMessage("An error occurred while trying to update a ticket.", e.getMessage());
@@ -155,12 +162,29 @@ public class TicketMenu {
 
 			ticket.setState(State.OPEN);
 			ticketService.create(ticket);
-			System.out.println("Ticket created");
+			System.out.println("\n\nTicket created");
+			System.out.println("=======================================================");
+			System.out.println(ticket.toString());
+			System.out.println("=======================================================");
 		}catch (Exception e){
 			showErrorMessage("An error occurred while creating a ticket.",e.getMessage());
 		}
 	}
 
+	public void getById(){
+    try{
+      System.out.println("Enter the ticket ID you want to get: ");
+			int id = scanner.nextInt();
+      scanner.nextLine();
+      Ticket ticket = ticketService.get(id);
+
+			System.out.println("=======================================================");
+			System.out.println(ticket.toString());
+			System.out.println("=======================================================");
+    }catch (Exception e){
+      showErrorMessage("An error occurred while getting a ticket.",e.getMessage());
+    }
+  }
 
 
 	private void showErrorMessage(String error, String message){
